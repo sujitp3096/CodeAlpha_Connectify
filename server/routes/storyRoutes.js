@@ -1,0 +1,11 @@
+import { Router } from 'express';
+import { createStory, deleteStory, storyFeed, viewStory } from '../controllers/storyController.js';
+import { protect } from '../middleware/auth.js';
+import { uploadImage } from '../middleware/upload.js';
+const router = Router();
+router.use(protect);
+router.get('/', storyFeed);
+router.post('/', uploadImage.single('image'), createStory);
+router.post('/:id/view', viewStory);
+router.delete('/:id', deleteStory);
+export default router;

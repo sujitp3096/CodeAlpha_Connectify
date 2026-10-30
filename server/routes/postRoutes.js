@@ -1,0 +1,17 @@
+import { Router } from 'express';
+import { addComment, createPost, deleteComment, deletePost, explore, feed, listComments, toggleLike, updatePost, trending } from '../controllers/postController.js';
+import { protect } from '../middleware/auth.js';
+import { uploadImage } from '../middleware/upload.js';
+const router = Router();
+router.use(protect);
+router.get('/feed', feed);
+router.get('/explore', explore);
+router.get('/trending', trending);
+router.post('/', uploadImage.single('image'), createPost);
+router.patch('/:id', uploadImage.single('image'), updatePost);
+router.delete('/:id', deletePost);
+router.post('/:id/like', toggleLike);
+router.get('/:id/comments', listComments);
+router.post('/:id/comments', addComment);
+router.delete('/:id/comments/:commentId', deleteComment);
+export default router;

@@ -1,0 +1,11 @@
+import { Router } from 'express';
+import { listConversations, listMessages, sendMessage, startConversation, toggleMessageReaction } from '../controllers/messageController.js';
+import { protect } from '../middleware/auth.js';
+const router = Router();
+router.use(protect);
+router.get('/conversations', listConversations);
+router.post('/conversations', startConversation);
+router.get('/:id', listMessages);
+router.post('/:id', sendMessage);
+router.patch('/:id/reaction', toggleMessageReaction);
+export default router;

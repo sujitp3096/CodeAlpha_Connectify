@@ -1,0 +1,16 @@
+import { Router } from 'express';
+import { getProfile, getBookmarks, followUser, myProfile, searchUsers, suggestedUsers, toggleBookmark, updateProfile, userPosts } from '../controllers/userController.js';
+import { protect } from '../middleware/auth.js';
+import { uploadImage } from '../middleware/upload.js';
+const router = Router();
+router.use(protect);
+router.get('/search', searchUsers);
+router.get('/suggested', suggestedUsers);
+router.get('/me', myProfile);
+router.patch('/me', uploadImage.fields([{ name: 'avatar', maxCount: 1 }, { name: 'coverImage', maxCount: 1 }]), updateProfile);
+router.get('/bookmarks', getBookmarks);
+router.post('/bookmarks/:id', toggleBookmark);
+router.post('/:id/follow', followUser);
+router.get('/:id/posts', userPosts);
+router.get('/:username', getProfile);
+export default router;
